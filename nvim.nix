@@ -149,6 +149,18 @@ in
       # --- copilot ---
       copilot-vim.enable = true;
 
+      # --- auto-pairing ---
+      # nvim-autopairs: closes (), [], {}, "", '' etc. as you type.
+      nvim-autopairs = {
+        enable = true;
+        settings.check_ts = true; # use treesitter to skip pairing inside strings/comments
+      };
+
+      # ts-autotag: does the HTML/JSX/Vue side - typing `<div>` auto-inserts
+      # `</div>`, and renaming the opening tag renames the closing one too.
+      # Needs treesitter (already enabled above) for the html/jsx/vue parsers.
+      ts-autotag.enable = true;
+
       # --- fuzzy finder ---
       telescope = {
         enable = true;
