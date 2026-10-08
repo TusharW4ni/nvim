@@ -25,6 +25,7 @@ in
     # copilot.vim + prettier. Replaces everything Mason used to fetch.
     extraPackages = with pkgs; [
       lua-language-server
+      clang-tools # clangd + clang-format
       vue-language-server
       typescript-language-server
       typescript
@@ -244,6 +245,8 @@ in
         settings = {
           formatters_by_ft = {
             lua = [ "stylua" ];
+            c = [ "clang-format" ];
+            cpp = [ "clang-format" ];
             javascript = prettierChain;
             typescript = prettierChain;
             javascriptreact = prettierChain;
@@ -277,6 +280,8 @@ in
 
       vim.lsp.config("vue_ls", { capabilities = capabilities })
 
+      vim.lsp.config("clangd", { capabilities = capabilities })
+
       vim.lsp.config("ts_ls", {
         capabilities = capabilities,
         init_options = {
@@ -294,6 +299,7 @@ in
       vim.lsp.enable("lua_ls")
       vim.lsp.enable("vue_ls")
       vim.lsp.enable("ts_ls")
+      vim.lsp.enable("clangd")
 
       vim.api.nvim_create_autocmd("LspAttach", {
         callback = function(args)
