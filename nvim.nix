@@ -73,10 +73,63 @@ in
     };
 
     keymaps = [
+      # terminal (toggleterm): toggle hides/shows all, opens one if none exist
       {
         mode = "n";
         key = "<leader>tt";
-        action = "<cmd>botright 15new | term<cr>i";
+        action.__raw = ''
+          function()
+            if #require("toggleterm.terminal").get_all() == 0 then
+              vim.cmd("ToggleTerm")
+            else
+              vim.cmd("ToggleTermToggleAll!")
+            end
+          end
+        '';
+        options.desc = "Toggle terminals";
+      }
+      {
+        mode = "n";
+        key = "<leader>ts";
+        action = "<cmd>TermNew<cr>";
+        options.desc = "New terminal (side by side)";
+      }
+      {
+        mode = "n";
+        key = "<leader>tq";
+        action.__raw = ''
+          function()
+            local terms = require("toggleterm.terminal")
+            local id = terms.get_focused_id()
+            if id then terms.get(id):shutdown() end
+          end
+        '';
+        options.desc = "Close focused terminal";
+      }
+      # resize panes
+      {
+        mode = "n";
+        key = "<C-Up>";
+        action = "<cmd>resize +2<cr>";
+        options.desc = "Increase pane height";
+      }
+      {
+        mode = "n";
+        key = "<C-Down>";
+        action = "<cmd>resize -2<cr>";
+        options.desc = "Decrease pane height";
+      }
+      {
+        mode = "n";
+        key = "<C-Left>";
+        action = "<cmd>vertical resize -2<cr>";
+        options.desc = "Decrease pane width";
+      }
+      {
+        mode = "n";
+        key = "<C-Right>";
+        action = "<cmd>vertical resize +2<cr>";
+        options.desc = "Increase pane width";
       }
       # oil
       {
@@ -179,6 +232,16 @@ in
           "<leader>fg" = { action = "live_grep"; options.desc = "Telescope live grep"; };
           "<leader>fb" = { action = "buffers"; options.desc = "Telescope buffers"; };
           "<leader>fh" = { action = "help_tags"; options.desc = "Telescope help tags"; };
+          "<leader>/" = { action = "current_buffer_fuzzy_find"; options.desc = "Search current buffer"; };
+        };
+      };
+
+      # --- terminal ---
+      toggleterm = {
+        enable = true;
+        settings = {
+          direction = "horizontal";
+          size = 15;
         };
       };
 
