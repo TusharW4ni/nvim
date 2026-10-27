@@ -200,6 +200,23 @@ in
         };
       };
 
+      # --- notes ---
+      # obsidian.nvim: wikilinks/backlinks/tags/search on the flat markdown
+      # vault. Completion comes from its built-in LSP, which blink-cmp's
+      # "lsp" source already picks up. ripgrep comes from home.packages.
+      obsidian = {
+        enable = true;
+        settings = {
+          legacy_commands = false; # use `:Obsidian <sub>` form only
+          workspaces = [{ name = "notes"; path = "~/obsidian-vaults/notes"; }];
+          new_notes_location = "current_dir"; # vault is flat, no subfolders
+          # Readable "Note Title.md" filenames, not zettel IDs.
+          note_id_func.__raw = ''require("obsidian.builtin").title_id'';
+          # Don't inject id/aliases/tags frontmatter into existing notes.
+          frontmatter.enabled = false;
+        };
+      };
+
       # --- copilot ---
       copilot-vim.enable = true;
 
