@@ -33,6 +33,11 @@ in
       prettierd
       prettier
       nodejs
+      # snacks.image: typesets $..$ math (tectonic) and converts/rasterises
+      # for the kitty protocol (imagemagick, ghostscript).
+      tectonic
+      imagemagick
+      ghostscript
     ];
 
     # vim.lsp.config/enable read default server definitions from nvim-lspconfig's
@@ -73,6 +78,10 @@ in
     };
 
     keymaps = [
+      # notes (obsidian.nvim)
+      { mode = "n"; key = "<leader>ob"; action = "<cmd>Obsidian backlinks<cr>"; options.desc = "Obsidian backlinks"; }
+      { mode = "n"; key = "<leader>on"; action = "<cmd>Obsidian new<cr>"; options.desc = "Obsidian new note"; }
+      { mode = "n"; key = "<leader>os"; action = "<cmd>Obsidian quick_switch<cr>"; options.desc = "Obsidian quick switch"; }
       # terminal (toggleterm): toggle hides/shows all, opens one if none exist
       {
         mode = "n";
@@ -215,6 +224,14 @@ in
           # Don't inject id/aliases/tags frontmatter into existing notes.
           frontmatter.enabled = false;
         };
+      };
+
+      # --- images / math ---
+      # snacks.image renders markdown images and $..$ / $$..$$ math inline via
+      # the kitty graphics protocol (Ghostty supports it).
+      snacks = {
+        enable = true;
+        settings.image.enabled = true;
       };
 
       # --- copilot ---
